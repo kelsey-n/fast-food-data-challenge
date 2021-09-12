@@ -1,0 +1,26 @@
+body {
+  overflow: hidden;
+  background-color: #f0f4f8;
+  font-family: sans-serif;
+}
+
+.tooltip {
+    position: absolute;
+    text-align: center;
+    width: 150px;
+    height: 45px;
+    padding: 2px;
+    font: 13px sans-serif;
+    background: #323f4b; /* lightsteelblue; */
+    color: white;
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+}
+
+.title {
+  font-size: 2vw;
+  font-family: monospace;
+  font-weight: bold;
+  fill: #121212;
+}
