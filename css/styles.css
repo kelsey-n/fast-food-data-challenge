@@ -8,7 +8,7 @@ body {
     position: absolute;
     text-align: center;
     width: 150px;
-    height: 45px;
+    height: 60px;
     padding: 2px;
     font: 13px sans-serif;
     background: #323f4b; /* lightsteelblue; */
@@ -23,4 +23,46 @@ body {
   font-family: monospace;
   font-weight: bold;
   fill: #121212;
+}
+
+#radial-chart {
+  position: relative
+}
+
+.button {
+  position: absolute;
+  z-index: 10;
+  margin-left: 1200px;
+  background-color: #ffffffcc;
+  border: 3px solid steelblue;
+  color: black;
+  padding: 3px 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: steelblue;
+  color: white;
+  cursor: pointer; 
+}
+
+.button-selected {
+  background-color: steelblue;
+  color: white;
+}
+
+#byState {
+  margin-top: 10px;
+}
+
+#byRestaurant {
+  margin-top: 40px;
+}
+
+#byUniqueRestaurant {
+  margin-top: 70px;
 }
