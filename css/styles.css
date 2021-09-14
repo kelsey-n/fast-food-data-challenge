@@ -1,6 +1,6 @@
 body {
   overflow: hidden;
-  background-color: #f0f4f8;
+  background-color: #1f2933; /*#f0f4f8; 857f72 616e7c 627d98 3e4c59*/
   font-family: sans-serif;
 }
 
@@ -19,10 +19,10 @@ body {
 }
 
 .title {
-  font-size: 2vw;
+  font-size: 1.8vw;
   font-family: monospace;
   font-weight: bold;
-  fill: #121212;
+  fill: #ffffffdd;
 }
 
 #radial-chart {
@@ -47,7 +47,7 @@ body {
 .button:hover {
   background-color: steelblue;
   color: white;
-  cursor: pointer; 
+  cursor: pointer;
 }
 
 .button-selected {

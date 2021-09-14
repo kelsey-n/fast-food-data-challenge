@@ -57,7 +57,9 @@ Promise.all([
     // Color scale to color bars according to median time spent abroad
     var barColor = d3.scaleLinear()
         .domain([d3.min(barData.map(d => d.unique_percapita)), d3.max(barData.map(d => d.unique_percapita))])
-        .range(['#58CCED', '#072F5F'])
+        //.range(['#FFC100', '#F6412D']) //yellow/red
+        //.range(['#58CCED', '#072F5F']) //original blue
+        .range(['#58CCED', '#1261A0'])
 
     // Add bars
     bars = svg.append("g")
@@ -124,8 +126,8 @@ Promise.all([
     // y axis radial lines
     yTick.append("circle")
         .attr("fill", "none")
-        .attr("stroke", "black")
-        .attr("stroke-width", 0.5)
+        .attr("stroke", "#ffffff")
+        .attr("stroke-width", 1)
         .attr("r", y);
     // white background for y tickvalues
     yTick.append("text")
@@ -181,12 +183,13 @@ Promise.all([
 
     label.append("line")
       .attr("x2", -5)
-      .attr("stroke", "#000")
+      .attr("stroke", "#ffffffdd")
 
     label.append("text")
       .attr("class", "bar-label")
       .attr("transform", function(d) { return (x(d.State_abbrev) + x.bandwidth() / 2 + Math.PI / 2) % (2 * Math.PI) < Math.PI ? "rotate(90)translate(0,16)" : "rotate(-90)translate(0,-9)"; })
       .style("font-size", "1.5vh")
+      .attr("fill", "#ffffffdd")
       .text(function(d){return(d.State_abbrev)})
 
     // Add legend for bar colors using d3-legend library
@@ -196,19 +199,20 @@ Promise.all([
     var legendLinear = d3.legendColor()
       .shapeWidth(windowWidth*0.017)
       .orient('horizontal')
-      .title('Unique Restaurants (per capita)')
+      .title('Unique FF Restaurants (per capita)')
       .scale(barColor);
     svg.select(".legendLinear")
       .attr("transform", `translate(${windowWidth/3.5}, ${-windowHeight/4})`)
       .attr("font-size", "0.9vw")
+      .attr("fill", "#ffffffdd")
       .call(legendLinear);
 
     // Add title
     svg
       .append("text")
       .attr("class", "title")
-      .attr("transform", `translate(${-windowWidth/3}, ${-windowHeight/2.2})`)
-      .text("*Insert Title*")
+      .attr("transform", `translate(${-windowWidth/2.1}, ${-windowHeight/2.2})`)
+      .text("Fast Food Options Across States")
     // fit title into a third of the window width by calling the wrap function defined below (taken from Mike Bostock)
     svg.select(".title")
       .call(wrap, windowWidth/3);
@@ -218,8 +222,9 @@ Promise.all([
     svg
       .append("text")
       .attr("class", "instructions-center")
-      .style("font-size", "0.7vw")
+      .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
+      .attr("fill", "#ffffffdd")
       .text("Restaurants will appear here!")
     // fit this text into the radius of the pie chart
     svg.select(".instructions-center")
@@ -256,7 +261,7 @@ Promise.all([
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*2})`)
-      .text("Explore international migration for work by the home countries with the highest and lowest rates of return.")
+      .text("Explore the total number of fast food (FF) restaurants per capita, as well as the unique options available per capita by state.")
     svg.select(".background")
       .call(wrap, textboxWidth - 5);
 
@@ -267,7 +272,7 @@ Promise.all([
       .style("font-style", "italic")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*6})`)
-      .text("Hover over a bar to see destination countries by that home country!")
+      .text("Hover over a bar to see fast food restaurants in that state!")
     svg.select(".instructions")
       .call(wrap, textboxWidth - 5);
 
@@ -284,21 +289,21 @@ Promise.all([
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*13})`)
-      .text("Return rate tends to be inversely proportional to median time spent abroad (ie the higher the return rate, the shorter the time spent abroad and vice versa).")
+      .text("Wyoming has the largest number of both total restaurants and unique restaurants per capita, while Alabama has the smallest of both.")
     svg
       .append("text")
       .attr("class", "takeaways")
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*17})`)
-      .text("Some exceptions are the US and New Zealand (where both return rate and time spent abroad are high) and Tunisia (where both are low).")
+      .text("Most states have less than 1 unique restaurant per capita, indicating less diverse options. Exceptions are Wyoming, Delaware, North Dakota, Alaska, South Dakota, Nebraska & Idaho.")
     svg
       .append("text")
       .attr("class", "takeaways")
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
-      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*21})`)
-      .text("Considering only the top 5 destination countries for each home country visualized, the most popular destinations by number of migrants are the UK, the US, Germany, Canada and Switzerland.")
+      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*22})`)
+      .text("Considering only the top 5 restaurants in each state, the most popular restaurants by number of locations are McDonald's, Taco Bell, Subway, Burger King and Arby's.")
    svg.selectAll(".takeaways")
       .call(wrap, textboxWidth - 5);
 
@@ -306,10 +311,11 @@ Promise.all([
       .append("text")
       .attr("class", "notes")
       .style("font-size", "0.8vw")
+      .attr("fill", "#ffffffdd")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${windowWidth/2*0.7}, ${windowHeight/4})`)
-      .text("This dataset was filtered for periods of time spent abroad between 3 months and 40 years. Only countries with 10,000+ migrants were visualized. \
-      For each home country, the 5 most popular destination countries (by number of migrants) are shown by name in the pie chart, and migrants to all other destination countries are summed under 'Other'.")
+      .text("Per Capita Value = Value / State Population * 100,000 \
+      For each state, the 5 most popular fast food restaurants (by number of restaurant locations) are shown by name in the pie chart, and all other fast food restaurants in that state are summed under 'Other'.")
     svg.selectAll(".notes")
       .call(wrap, (windowWidth/2 - outerRadius)*0.7);
 
@@ -330,7 +336,8 @@ Promise.all([
       .style("text-anchor","middle") //place the text halfway on the arc
       .attr("startOffset", "31%")
       .attr("font-size", "1vw")
-      .text("Fast Food Restaurants (per capita)");
+      .attr("fill", "#ffffffdd")
+      .text("Total FF Restaurants (per capita)");
 
     d3.select("#byState").on("click", function() {
       document.getElementById("byState").classList.add("button-selected")
@@ -424,7 +431,7 @@ Promise.all([
 
 });
 
-// Function to draw the pie chart based on the home_country bar that the user is hovering over
+// Function to draw the pie chart based on the state bar that the user is hovering over
 function drawPieChart(pieData_state) {
   // set the color scale
   var color = d3.scaleOrdinal()
@@ -461,7 +468,7 @@ function drawPieChart(pieData_state) {
         .attr("transform", function(d) {
           var midAngle = d.startAngle + ((d.endAngle - d.startAngle)/2) < Math.PI ? d.startAngle/2 + d.endAngle/2 : d.startAngle/2  + d.endAngle/2 + Math.PI ;
           return "translate(" + labelArc.centroid(d)[0] + "," + labelArc.centroid(d)[1] + ") rotate(-90) rotate(" + (midAngle * 180/Math.PI) + ")"})
-        .style("font-size", "0.7vw")
+        .style("font-size", "0.85vw")
         .attr("text-anchor", "middle")
 }
 
