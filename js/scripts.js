@@ -56,7 +56,7 @@ Promise.all([
 
     // Color scale to color bars according to median time spent abroad
     var barColor = d3.scaleLinear()
-        .domain([d3.min(barData.map(d => d.unique_percapita)), d3.max(barData.map(d => d.unique_percapita))])
+        .domain([d3.min(barData.map(d => d.unique_count)), d3.max(barData.map(d => d.unique_count))])
         //.range(['#FFC100', '#F6412D']) //yellow/red
         //.range(['#58CCED', '#072F5F']) //original blue
         .range(['#58CCED', '#1261A0'])
@@ -68,7 +68,7 @@ Promise.all([
       .enter()
       .append("path")
         .attr("class", "bar")
-        .attr("fill", function(d) { return barColor(d.unique_percapita); })
+        .attr("fill", function(d) { return barColor(d.unique_count); })
         .attr("d", d3.arc()
             .innerRadius(innerRadius)
             .outerRadius(function(d) { return y(d.ff_percapita); })
@@ -98,7 +98,7 @@ Promise.all([
 
     bars.on("mousemove", function(event, d) {
       pie_svg.style('opacity', 1)
-      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants<br/>" + d.unique_percapita + " unique restaurants per capita")
+      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants<br/>" + d.unique_count + " unique restaurants per capita")
       // Position tooltip based on mouse position relative to top & left of window so that the pie chart in the middle is never blocked by the tooltip
       event.pageY < windowHeight/2 ? tooltip.style("top", (event.pageY - 55) + "px") : tooltip.style("top", (event.pageY + 15) + "px")
       event.pageX < windowWidth/2 ? tooltip.style("left", (event.pageX - 155) + "px") : tooltip.style("left", (event.pageX + 15) + "px")
@@ -198,8 +198,8 @@ Promise.all([
       .attr("transform", "translate(20,20)");
     var legendLinear = d3.legendColor()
       .shapeWidth(windowWidth*0.017)
-      .orient('horizontal')
-      .title('Unique FF Restaurants (per capita)')
+      //.orient('horizontal')
+      .title('Unique FF Restaurants')
       .scale(barColor);
     svg.select(".legendLinear")
       .attr("transform", `translate(${windowWidth/3.5}, ${-windowHeight/4})`)
@@ -404,7 +404,7 @@ Promise.all([
       document.getElementById("byRestaurant").classList.remove("button-selected")
       document.getElementById("byUniqueRestaurant").classList.add("button-selected")
       barData.sort(function(a, b) {
-        return d3.descending(a.unique_percapita, b.unique_percapita)
+        return d3.descending(a.unique_count, b.unique_count)
       })
       x.domain(barData.map(function(d) {
         return d.State_abbrev;
@@ -435,8 +435,9 @@ Promise.all([
 function drawPieChart(pieData_state) {
   // set the color scale
   var color = d3.scaleOrdinal()
-    .domain(pieData_state.map(d => d[0]))
-    .range(d3.schemeSet2);
+    .domain(["Subway","Burger King","Taco Bell","Arby's","Other","McDonald's"].concat(pieData_state.map(d => d[0])))
+    .range(d3.schemeSet3);
+
   // Compute the position of each group on the pie:
   var pie = d3.pie()
     .value(function(d) {return d[1]; })
