@@ -32,7 +32,6 @@ body {
 .button {
   position: absolute;
   z-index: 10;
-  margin-left: 1200px;
   background-color: #ffffffcc;
   border: 3px solid steelblue;
   color: black;
@@ -42,7 +41,7 @@ body {
   display: inline-block;
   border-radius: 8px;
   transition-duration: 0.4s;
-  font-size: 12px; 
+  font-size: 12px;
 }
 
 .button:hover {
@@ -56,7 +55,7 @@ body {
   color: white;
 }
 
-#byState {
+/* #byState {
   margin-top: 10px;
 }
 
@@ -66,4 +65,4 @@ body {
 
 #byUniqueRestaurant {
   margin-top: 100px;
-}
+} */

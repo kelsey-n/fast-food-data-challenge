@@ -35,6 +35,16 @@ var pie_svg = d3.select("#radial-chart")
   .append("g")
     .attr("transform", "translate(" + pie_width / 2 + "," + pie_height / 2 + ")")
 
+// set left margin for buttons based on windowWidth
+document.getElementById('byState').style['margin-left'] = `${windowWidth/2 + outerRadius}px`
+document.getElementById('byRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius}px`
+document.getElementById('byUniqueRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius}px`
+
+// set top margin for buttons based on which button it is
+document.getElementById('byState').style['margin-top'] = `${windowHeight/2 - innerRadius}px`
+document.getElementById('byRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 30}px`
+document.getElementById('byUniqueRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 60}px`
+
 // Upload data then draw elements on page and add functionality
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/kelsey-n/fast-food-data-challenge/main/data/restaurantCount_uniqueRestCount_perCapita_byState.csv", d3.autoType),
@@ -59,7 +69,9 @@ Promise.all([
         .domain([d3.min(barData.map(d => d.unique_count)), d3.max(barData.map(d => d.unique_count))])
         //.range(['#FFC100', '#F6412D']) //yellow/red
         //.range(['#58CCED', '#072F5F']) //original blue
-        .range(['#58CCED', '#1261A0'])
+        //.range(['#58CCED', '#1261A0']) //original light but darker darkest
+        .range(['#ACF5E1','#4A8BCE'])
+        //.range(['#CDF1EB', '#6194C2'])
 
     // Add bars
     bars = svg.append("g")
@@ -197,12 +209,12 @@ Promise.all([
       .attr("class", "legendLinear")
       .attr("transform", "translate(20,20)");
     var legendLinear = d3.legendColor()
-      .shapeWidth(windowWidth*0.017)
+      //.shapeWidth(windowWidth*0.017)
       //.orient('horizontal')
-      .title('Unique FF Restaurants')
+      .title('Unique Restaurants')
       .scale(barColor);
     svg.select(".legendLinear")
-      .attr("transform", `translate(${windowWidth/3.5}, ${-windowHeight/4})`)
+      .attr("transform", `translate(${outerRadius}, ${-windowHeight/2.2})`)
       .attr("font-size", "0.9vw")
       .attr("fill", "#ffffffdd")
       .call(legendLinear);
@@ -261,7 +273,7 @@ Promise.all([
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*2})`)
-      .text("Explore the total number of fast food (FF) restaurants per capita, as well as the unique options available per capita by state.")
+      .text("Explore the total number of fast food restaurants per capita, as well as the unique options available per capita by state.")
     svg.select(".background")
       .call(wrap, textboxWidth - 5);
 
@@ -337,7 +349,7 @@ Promise.all([
       .attr("startOffset", "31%")
       .attr("font-size", "1vw")
       .attr("fill", "#ffffffdd")
-      .text("Total FF Restaurants (per capita)");
+      .text("Total Restaurants Per Capita");
 
     d3.select("#byState").on("click", function() {
       document.getElementById("byState").classList.add("button-selected")
@@ -435,8 +447,9 @@ Promise.all([
 function drawPieChart(pieData_state) {
   // set the color scale
   var color = d3.scaleOrdinal()
-    .domain(["Subway","Burger King","Taco Bell","Arby's","Other","McDonald's"].concat(pieData_state.map(d => d[0])))
-    .range(d3.schemeSet3);
+    //set constant colors for the most popular restaurants in the domain
+    .domain(["Other","Arby's","Taco Bell","Burger King","Subway","McDonald's"].concat(pieData_state.map(d => d[0])))
+    .range(d3.schemeSet2.concat(d3.schemeSet3));
 
   // Compute the position of each group on the pie:
   var pie = d3.pie()
