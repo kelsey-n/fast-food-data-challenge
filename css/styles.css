@@ -1,28 +1,28 @@
 body {
   overflow: hidden;
   background-color: #1f2933; /*#f0f4f8; 857f72 616e7c 627d98 3e4c59*/
-  font-family: sans-serif;
+  font-family: 'Asap', sans-serif;
 }
 
 .tooltip {
     position: absolute;
     text-align: center;
     width: 150px;
-    height: 60px;
+    height: 45px;
     padding: 2px;
     font: 13px sans-serif;
-    background: #323f4b; /* lightsteelblue; */
-    color: white;
+    background: #ffffff; /* lightsteelblue; */
+    color: black;
     border: 0px;
     border-radius: 8px;
     pointer-events: none;
 }
 
 .title {
-  font-size: 1.8vw;
-  font-family: monospace;
+  font-size: 2vw;
+  font-family: 'Maven Pro', sans-serif;
   font-weight: bold;
-  fill: #ffffffdd;
+  fill: #ffffffee;
 }
 
 #radial-chart {
@@ -30,18 +30,19 @@ body {
 }
 
 .button {
+  font-family: 'Asap', sans-serif;
   position: absolute;
   z-index: 10;
-  background-color: #ffffffcc;
-  border: 3px solid steelblue;
+  background-color: #ffffffee;
+  /* border: 3px solid steelblue; */
   color: black;
   padding: 3px 5px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   border-radius: 8px;
-  transition-duration: 0.4s;
-  font-size: 12px;
+  /* transition-duration: 0.4s; */
+  font-size: 0.9vw;
 }
 
 .button:hover {
@@ -54,15 +55,3 @@ body {
   background-color: steelblue;
   color: white;
 }
-
-/* #byState {
-  margin-top: 10px;
-}
-
-#byRestaurant {
-  margin-top: 50px;
-}
-
-#byUniqueRestaurant {
-  margin-top: 100px;
-} */

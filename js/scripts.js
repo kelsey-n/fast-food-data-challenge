@@ -36,20 +36,27 @@ var pie_svg = d3.select("#radial-chart")
     .attr("transform", "translate(" + pie_width / 2 + "," + pie_height / 2 + ")")
 
 // set left margin for buttons based on windowWidth
-document.getElementById('byState').style['margin-left'] = `${windowWidth/2 + outerRadius}px`
-document.getElementById('byRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius}px`
-document.getElementById('byUniqueRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius}px`
+document.getElementById('byState').style['margin-left'] = `${windowWidth/2 + outerRadius + innerRadius}px`
+document.getElementById('byRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius + innerRadius}px`
+document.getElementById('byUniqueRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius + innerRadius}px`
 
 // set top margin for buttons based on which button it is
 document.getElementById('byState').style['margin-top'] = `${windowHeight/2 - innerRadius}px`
-document.getElementById('byRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 30}px`
-document.getElementById('byUniqueRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 60}px`
+document.getElementById('byRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 35}px`
+document.getElementById('byUniqueRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 70}px`
 
 // Upload data then draw elements on page and add functionality
 Promise.all([
     d3.csv("https://raw.githubusercontent.com/kelsey-n/fast-food-data-challenge/main/data/restaurantCount_uniqueRestCount_perCapita_byState.csv", d3.autoType),
     d3.csv("https://raw.githubusercontent.com/kelsey-n/fast-food-data-challenge/main/data/summary_restaurants_by_state_abbrev.csv", d3.autoType)
   ]).then(function(data) {
+
+    // add transition duration to buttons after setting their margins so buttons do not fly in from the top left corner where they are initially placed
+    var buttons = document.getElementsByClassName('button')
+    Array.from(buttons).forEach((button) => {
+        // Do stuff here
+        button.style['transition-duration'] = '0.4s'
+    });
 
     var barData = data[0]
     var pieData = data[1]
@@ -110,7 +117,7 @@ Promise.all([
 
     bars.on("mousemove", function(event, d) {
       pie_svg.style('opacity', 1)
-      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants<br/>" + d.unique_count + " unique restaurants per capita")
+      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants<br/>" + d.unique_count + " unique restaurants")
       // Position tooltip based on mouse position relative to top & left of window so that the pie chart in the middle is never blocked by the tooltip
       event.pageY < windowHeight/2 ? tooltip.style("top", (event.pageY - 55) + "px") : tooltip.style("top", (event.pageY + 15) + "px")
       event.pageX < windowWidth/2 ? tooltip.style("left", (event.pageX - 155) + "px") : tooltip.style("left", (event.pageX + 15) + "px")
@@ -146,13 +153,16 @@ Promise.all([
         .attr("y", function(d) { return -y(d); })
         .attr("dy", "0.35em")
         .attr("fill", "none")
-        .attr("stroke", "#ffffffdd")
-        .attr("stroke-width", 5)
+        .attr("stroke", "#1f2933")
+        .style("font-size", "1.6vh")
+        .attr("stroke-width", 7)
         .text(y.tickFormat(5, "s"));
     // font for y tickvalues (20,40,50 as defined above)
     yTick.append("text")
         .attr("y", function(d) { return -y(d); })
         .attr("dy", "0.35em")
+        .attr("fill", "#ffffff")
+        .style("font-size", "1.6vh")
         .text(y.tickFormat(5, "s"));
 
     // Add the home_country labels, translating, rotating and anchoring text based on bar angle
@@ -223,8 +233,9 @@ Promise.all([
     svg
       .append("text")
       .attr("class", "title")
-      .attr("transform", `translate(${-windowWidth/2.1}, ${-windowHeight/2.2})`)
-      .text("Fast Food Options Across States")
+      .attr("transform", `translate(${-outerRadius}, ${-windowHeight/2.2})`)
+      .attr("text-anchor", "end")
+      .text("Fast Foodscape in America")
     // fit title into a third of the window width by calling the wrap function defined below (taken from Mike Bostock)
     svg.select(".title")
       .call(wrap, windowWidth/3);
@@ -248,10 +259,10 @@ Promise.all([
     var textbox = svg.append("rect")
                     .attr("class", "text-box")
                     .attr("width", textboxWidth)
-                    .attr("height", windowHeight*0.75)
+                    .attr("height", windowHeight*0.77)
                     .attr("x", -outerRadius - ((windowWidth/2 - outerRadius) * 0.9))
                     .attr("y", -windowHeight/2*0.75)
-                    .attr("fill", "white")
+                    .attr("fill", "#ffffffcc")
                     .attr("rx", 3)
                     .attr("ry", 3)
                     .attr("stroke", "#F5F5F5")
@@ -263,6 +274,7 @@ Promise.all([
       .append("text")
       .attr("class", "takeaways")
       .style("font-size", "1.1vw")
+      .style("font-weight", "600")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak} )`)
       .text("Purpose")
@@ -273,7 +285,8 @@ Promise.all([
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*2})`)
-      .text("Explore the total number of fast food restaurants per capita, as well as the unique options available per capita by state.")
+      .text("What do fast food options look like across states? Which states have a large number of choices for their size and which have a diverse range of choics? \
+       Explore the number of fast food restaurants per capita*, as well as the number of unique restaurant options available by state.")
     svg.select(".background")
       .call(wrap, textboxWidth - 5);
 
@@ -283,7 +296,7 @@ Promise.all([
       .style("font-size", "1vw")
       .style("font-style", "italic")
       .attr("text-anchor", "middle")
-      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*6})`)
+      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*9})`)
       .text("Hover over a bar to see fast food restaurants in that state!")
     svg.select(".instructions")
       .call(wrap, textboxWidth - 5);
@@ -292,30 +305,31 @@ Promise.all([
       .append("text")
       .attr("class", "takeaways")
       .style("font-size", "1.1vw")
+      .style("font-weight", "600")
       .attr("text-anchor", "middle")
-      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*11})`)
+      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*12.5})`)
       .text("Takeaways")
     svg
       .append("text")
       .attr("class", "takeaways")
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
-      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*13})`)
-      .text("Wyoming has the largest number of both total restaurants and unique restaurants per capita, while Alabama has the smallest of both.")
+      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*13.5})`)
+      .text("Wyoming has the most restaurants per capita but few unique options, while Alabama has the least of both. California has the most unique options by far (117).")
     svg
       .append("text")
       .attr("class", "takeaways")
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
-      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*17})`)
-      .text("Most states have less than 1 unique restaurant per capita, indicating less diverse options. Exceptions are Wyoming, Delaware, North Dakota, Alaska, South Dakota, Nebraska & Idaho.")
+      .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*17.5})`)
+      .text("Ohio, Michigan, Georgia, Arizona & Tennessee stand out with large numbers of both total restaurants per capita and unique options, indicating both numerous and diverse choices.")
     svg
       .append("text")
       .attr("class", "takeaways")
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*22})`)
-      .text("Considering only the top 5 restaurants in each state, the most popular restaurants by number of locations are McDonald's, Taco Bell, Subway, Burger King and Arby's.")
+      .text("Considering only the 5 restaurants with the most locations in each state, the top restaurants across the country are McDonald's, Taco Bell, Subway, Burger King and Arby's.")
    svg.selectAll(".takeaways")
       .call(wrap, textboxWidth - 5);
 
@@ -326,8 +340,8 @@ Promise.all([
       .attr("fill", "#ffffffdd")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${windowWidth/2*0.7}, ${windowHeight/4})`)
-      .text("Per Capita Value = Value / State Population * 100,000 \
-      For each state, the 5 most popular fast food restaurants (by number of restaurant locations) are shown by name in the pie chart, and all other fast food restaurants in that state are summed under 'Other'.")
+      .text(`*Restaurants Per Capita = # of Restaurants / State Population * 100,000.
+      For each state, the 5 most popular fast food restaurants (by number of restaurant locations) are shown by name in the pie chart, and all other fast food restaurants in that state are summed under 'Other'.`)
     svg.selectAll(".notes")
       .call(wrap, (windowWidth/2 - outerRadius)*0.7);
 
