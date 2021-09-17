@@ -41,9 +41,13 @@ document.getElementById('byRestaurant').style['margin-left'] = `${windowWidth/2 
 document.getElementById('byUniqueRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius + innerRadius}px`
 
 // set top margin for buttons based on which button it is
-document.getElementById('byState').style['margin-top'] = `${windowHeight/2 - innerRadius}px`
-document.getElementById('byRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 35}px`
-document.getElementById('byUniqueRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 70}px`
+// document.getElementById('byState').style['margin-top'] = `${windowHeight/2 - innerRadius}px`
+// document.getElementById('byRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 35}px`
+// document.getElementById('byUniqueRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 70}px`
+
+document.getElementById('byState').style['margin-top'] = `${35}px`
+document.getElementById('byRestaurant').style['margin-top'] = `${70}px`
+document.getElementById('byUniqueRestaurant').style['margin-top'] = `${105}px`
 
 // Upload data then draw elements on page and add functionality
 Promise.all([
@@ -154,7 +158,7 @@ Promise.all([
         .attr("dy", "0.35em")
         .attr("fill", "none")
         .attr("stroke", "#1f2933")
-        .style("font-size", "1.6vh")
+        .style("font-size", "1.8vh")
         .attr("stroke-width", 7)
         .text(y.tickFormat(5, "s"));
     // font for y tickvalues (20,40,50 as defined above)
@@ -162,7 +166,7 @@ Promise.all([
         .attr("y", function(d) { return -y(d); })
         .attr("dy", "0.35em")
         .attr("fill", "#ffffff")
-        .style("font-size", "1.6vh")
+        .style("font-size", "1.8vh")
         .text(y.tickFormat(5, "s"));
 
     // Add the home_country labels, translating, rotating and anchoring text based on bar angle
@@ -262,7 +266,7 @@ Promise.all([
                     .attr("height", windowHeight*0.77)
                     .attr("x", -outerRadius - ((windowWidth/2 - outerRadius) * 0.9))
                     .attr("y", -windowHeight/2*0.75)
-                    .attr("fill", "#ffffffcc")
+                    .attr("fill", "#ffffffdd")
                     .attr("rx", 3)
                     .attr("ry", 3)
                     .attr("stroke", "#F5F5F5")

@@ -34,7 +34,7 @@ body {
   position: absolute;
   z-index: 10;
   background-color: #ffffffee;
-  /* border: 3px solid steelblue; */
+  border: none; /* 3px solid steelblue; */
   color: black;
   padding: 3px 5px;
   text-align: center;
@@ -46,12 +46,12 @@ body {
 }
 
 .button:hover {
-  background-color: steelblue;
+  background-color: #3895D3;
   color: white;
   cursor: pointer;
 }
 
 .button-selected {
-  background-color: steelblue;
+  background-color: #3895D3;
   color: white;
 }
