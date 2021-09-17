@@ -266,10 +266,10 @@ Promise.all([
                     .attr("height", windowHeight*0.77)
                     .attr("x", -outerRadius - ((windowWidth/2 - outerRadius) * 0.9))
                     .attr("y", -windowHeight/2*0.75)
-                    .attr("fill", "#ffffffdd")
+                    .attr("fill", "#ffffffee")
                     .attr("rx", 3)
                     .attr("ry", 3)
-                    .attr("stroke", "#F5F5F5")
+                    .attr("stroke", "#ffffff")
                     .attr("stroke-width", 3)
 
     var lineBreak = windowHeight*0.03
