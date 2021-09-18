@@ -121,7 +121,7 @@ Promise.all([
 
     bars.on("mousemove", function(event, d) {
       pie_svg.style('opacity', 1)
-      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants<br/>" + d.unique_count + " unique restaurants")
+      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants PC*<br/>" + d.unique_count + " unique restaurants")
       // Position tooltip based on mouse position relative to top & left of window so that the pie chart in the middle is never blocked by the tooltip
       event.pageY < windowHeight/2 ? tooltip.style("top", (event.pageY - 55) + "px") : tooltip.style("top", (event.pageY + 15) + "px")
       event.pageX < windowWidth/2 ? tooltip.style("left", (event.pageX - 155) + "px") : tooltip.style("left", (event.pageX + 15) + "px")
@@ -289,8 +289,8 @@ Promise.all([
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*2})`)
-      .text("What do fast food options look like across states? Which states have a large number of choices for their size and which have a diverse range of choics? \
-       Explore the number of fast food restaurants per capita*, as well as the number of unique restaurant options available by state.")
+      .text("What do fast food options look like across states? Which states have a large number of choices for their size and which have a diverse range of choices? \
+       Use this chart to sort and explore states by the number of fast food restaurants per capita*, or number of unique restaurant options available.")
     svg.select(".background")
       .call(wrap, textboxWidth - 5);
 
@@ -333,7 +333,7 @@ Promise.all([
       .style("font-size", "0.9vw")
       .attr("text-anchor", "middle")
       .attr("transform", `translate(${-outerRadius - ((windowWidth/2 - outerRadius) * 0.9) + textboxWidth/2}, ${-windowHeight/2*0.75 + lineBreak*22})`)
-      .text("Considering only the 5 restaurants with the most locations in each state, the top restaurants across the country are McDonald's, Taco Bell, Subway, Burger King and Arby's.")
+      .text("The 5 fast food restaurants with the most locations in the country are (in descending order) McDonald's, Taco Bell, Subway, Burger King and Arby's.")
    svg.selectAll(".takeaways")
       .call(wrap, textboxWidth - 5);
 
