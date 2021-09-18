@@ -121,7 +121,7 @@ Promise.all([
 
     bars.on("mousemove", function(event, d) {
       pie_svg.style('opacity', 1)
-      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants PC*<br/>" + d.unique_count + " unique restaurants")
+      tooltip.html("<em>" + d.STATE + "</em><br/>"  + d.ff_percapita + " restaurants per capita*<br/>" + d.unique_count + " unique restaurants")
       // Position tooltip based on mouse position relative to top & left of window so that the pie chart in the middle is never blocked by the tooltip
       event.pageY < windowHeight/2 ? tooltip.style("top", (event.pageY - 55) + "px") : tooltip.style("top", (event.pageY + 15) + "px")
       event.pageX < windowWidth/2 ? tooltip.style("left", (event.pageX - 155) + "px") : tooltip.style("left", (event.pageX + 15) + "px")
