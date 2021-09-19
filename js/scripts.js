@@ -41,10 +41,6 @@ document.getElementById('byRestaurant').style['margin-left'] = `${windowWidth/2 
 document.getElementById('byUniqueRestaurant').style['margin-left'] = `${windowWidth/2 + outerRadius + innerRadius}px`
 
 // set top margin for buttons based on which button it is
-// document.getElementById('byState').style['margin-top'] = `${windowHeight/2 - innerRadius}px`
-// document.getElementById('byRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 35}px`
-// document.getElementById('byUniqueRestaurant').style['margin-top'] = `${windowHeight/2 - innerRadius + 70}px`
-
 document.getElementById('byState').style['margin-top'] = `${35}px`
 document.getElementById('byRestaurant').style['margin-top'] = `${70}px`
 document.getElementById('byUniqueRestaurant').style['margin-top'] = `${105}px`
@@ -143,8 +139,7 @@ Promise.all([
 
     var yTick = yAxis
       .selectAll("g")
-      .data(y.ticks(5).slice(1)) //this gives the exact yticks as [0,10,20,30,40,50]. we only want to show a few so we can add the y axis label as 'Return Rate (%)' AND have as few lines drawn on top of bars, interrupting mousemove for the bars
-      //.data([20,40,50]) //so we will define data manually here choosing only a few convenient but informative y ticks
+      .data(y.ticks(5).slice(1))
       .enter().append("g");
     // y axis radial lines
     yTick.append("circle")
@@ -239,7 +234,7 @@ Promise.all([
       .attr("class", "title")
       .attr("transform", `translate(${-outerRadius}, ${-windowHeight/2.2})`)
       .attr("text-anchor", "end")
-      .text("Fast Foodscape in America")
+      .text("(Fast)Foodscape in America")
     // fit title into a third of the window width by calling the wrap function defined below (taken from Mike Bostock)
     svg.select(".title")
       .call(wrap, windowWidth/3);
